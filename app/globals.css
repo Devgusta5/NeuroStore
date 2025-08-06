@@ -1,7 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap");
 
 @layer base {
   * {
@@ -9,10 +9,12 @@
   }
 
   body {
-    @apply bg-black text-white;
+    @apply bg-gray-900 text-white;
+    font-family: "Inter", sans-serif;
+  }
+
+  code {
     font-family: "JetBrains Mono", monospace;
-    cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%232A7DE1' stroke-width='2' opacity='0.8'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%237F00FF'/%3E%3C/svg%3E")
-      12 12, auto;
   }
 
   html {
@@ -25,20 +27,20 @@
     font-family: "Orbitron", monospace;
   }
 
-  /* Neural Loader */
+  /* Simplified Neural Loader */
   .neural-loader {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
   }
 
   .neural-core {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, #2a7de1, #7f00ff);
+    width: 12px;
+    height: 12px;
+    background: #2a7de1;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     animation: pulse-core 2s ease-in-out infinite;
@@ -48,40 +50,39 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 60px;
-    height: 60px;
-    border: 2px solid #2a7de1;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #2a7de1;
     border-radius: 50%;
     border-top-color: transparent;
     transform: translate(-50%, -50%);
-    animation: spin 1s linear infinite;
+    animation: spin 2s linear infinite;
   }
 
   .neural-ring-2 {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border: 1px solid #7f00ff;
     border-radius: 50%;
     border-bottom-color: transparent;
     transform: translate(-50%, -50%);
-    animation: spin 2s linear infinite reverse;
+    animation: spin 3s linear infinite reverse;
   }
 
-  /* Quantum Buttons */
+  /* Simplified Quantum Buttons */
   .quantum-btn {
     position: relative;
-    padding: 16px 32px;
+    padding: 12px 24px;
     background: transparent;
-    border: 2px solid;
-    border-radius: 12px;
-    font-weight: 600;
+    border: 1px solid;
+    border-radius: 8px;
+    font-weight: 500;
     font-size: 14px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
   }
@@ -94,7 +95,7 @@
   .quantum-btn.primary:hover {
     background: #2a7de1;
     color: black;
-    box-shadow: 0 0 30px #2a7de1;
+    box-shadow: 0 0 15px rgba(42, 125, 225, 0.3);
   }
 
   .quantum-btn.secondary {
@@ -105,7 +106,7 @@
   .quantum-btn.secondary:hover {
     background: #7f00ff;
     color: white;
-    box-shadow: 0 0 30px #7f00ff;
+    box-shadow: 0 0 15px rgba(127, 0, 255, 0.3);
   }
 
   .btn-text {
@@ -113,99 +114,30 @@
     z-index: 2;
   }
 
-  .btn-particles {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .quantum-btn:hover .btn-particles {
-    opacity: 1;
-  }
-
-  .btn-particles::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(42, 125, 225, 0.3) 0%, transparent 70%);
-    animation: particle-float 2s ease-in-out infinite;
-  }
-
-  .btn-glow {
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(45deg, transparent, rgba(42, 125, 225, 0.5), transparent);
-    border-radius: 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-  }
-
-  .quantum-btn:hover .btn-glow {
-    opacity: 1;
-    animation: glow-rotate 2s linear infinite;
-  }
-
-  /* Holographic Text */
+  /* Simplified Holographic Text */
   .holographic-text {
-    background: linear-gradient(90deg, #2a7de1, #7f00ff, #2a7de1, #7f00ff);
+    background: linear-gradient(90deg, #2a7de1, #7f00ff, #2a7de1);
     background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .bg-size-200 {
-    background-size: 200% 100%;
-  }
-
-  /* Neural Cards */
+  /* Simplified Neural Cards */
   .neural-card {
     position: relative;
-    height: 400px;
-    transform-style: preserve-3d;
+    height: 380px;
     transition: transform 0.3s ease;
+  }
+
+  .neural-card:hover {
+    transform: translateY(-5px);
   }
 
   .neural-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
-  }
-
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  /* Hexagonal Grid */
-  .hexagonal-grid {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-
-  .floating-hex {
-    position: absolute;
-    animation: float-hex 6s ease-in-out infinite;
-  }
-
-  /* Quantum Particles */
-  .quantum-particles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .quantum-particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: radial-gradient(circle, #2a7de1, transparent);
-    border-radius: 50%;
-    animation: quantum-float 4s ease-in-out infinite;
   }
 
   /* Gesture Indicators */
@@ -216,51 +148,68 @@
   }
 
   .gesture-icon {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .gesture-message {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
   }
 
-  /* Quantum Modal */
-  .quantum-modal {
-    animation: modal-appear 0.5s ease-out;
+  /* Glass Effect */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  /* Morphing Shapes */
-  .morphing-shape {
-    animation: morph 15s ease-in-out infinite;
-  }
-
-  /* Scrollbar */
+  /* Scrollbar styling */
   ::-webkit-scrollbar {
     width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #0a0f1e;
+    background: #1f2937;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #2a7de1, #7f00ff);
+    background: #6b7280;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(to bottom, #7f00ff, #2a7de1);
+    background: #9333ea;
+  }
+
+  /* Code block styling */
+  pre {
+    overflow-x: auto;
+  }
+
+  code {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Button hover effects */
+  .btn-hover {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-hover:hover {
+    transform: translateY(-1px);
   }
 }
 
-/* Animations */
+/* Simplified Animations */
 @keyframes pulse-core {
-  0%,
-  100% {
+  0%, 100% {
     transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.8;
   }
 }
 
@@ -273,75 +222,12 @@
   }
 }
 
-@keyframes particle-float {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
+@keyframes simple-float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
   }
   50% {
-    transform: translateY(-10px) scale(1.1);
-  }
-}
-
-@keyframes glow-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes float-hex {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(180deg);
-  }
-}
-
-@keyframes quantum-float {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateY(-30px) scale(1.5);
-    opacity: 1;
-  }
-}
-
-@keyframes morph {
-  0%,
-  100% {
-    border-radius: 50%;
-    transform: scale(1) rotate(0deg);
-  }
-  25% {
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    transform: scale(1.1) rotate(90deg);
-  }
-  50% {
-    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-    transform: scale(0.9) rotate(180deg);
-  }
-  75% {
-    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
-    transform: scale(1.2) rotate(270deg);
-  }
-}
-
-@keyframes modal-appear {
-  from {
-    opacity: 0;
-    transform: scale(0.8) rotateX(-10deg);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) rotateX(0deg);
+    transform: translateY(-30px) translateX(20px);
   }
 }
 
@@ -356,55 +242,40 @@
   }
 }
 
+/* Minimal animations */
 @keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: scale(1);
+  0%, 100% {
+    opacity: 1;
   }
   50% {
-    opacity: 1;
-    transform: scale(1.5);
+    opacity: 0.5;
   }
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .quantum-btn {
-    padding: 12px 24px;
+    padding: 10px 20px;
     font-size: 12px;
   }
 
   .neural-card {
-    height: 350px;
+    height: 320px;
   }
 
   .holographic-text {
-    font-size: 3rem !important;
+    font-size: 2.5rem !important;
   }
-}
 
-/* Advanced CSS Effects */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.neon-glow {
-  filter: drop-shadow(0 0 10px currentColor);
-}
-
-.text-shadow-neon {
-  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
+  .text-6xl {
+    font-size: 2.5rem;
+  }
+  
+  .text-5xl {
+    font-size: 2rem;
+  }
 }

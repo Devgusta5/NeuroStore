@@ -34,25 +34,6 @@ export default function HeroAdvanced() {
       "-=0.5",
     )
 
-    // Floating elements animation
-    gsap.to(".floating-hex", {
-      y: -20,
-      rotation: 360,
-      duration: 4,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 0.2,
-    })
-
-    // Holographic effect
-    gsap.to(".holographic-text", {
-      backgroundPosition: "200% center",
-      duration: 3,
-      repeat: -1,
-      ease: "none",
-    })
-
     // Parallax scroll effect
     gsap.to(".hero-bg", {
       yPercent: -50,
@@ -68,81 +49,27 @@ export default function HeroAdvanced() {
 
   return (
     <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Advanced Background */}
-      <div className="hero-bg absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-charcoal to-black opacity-90"></div>
+      {/* Simplified Background */}
+      <div className="hero-bg absolute inset-0 bg-gradient-to-br from-black to-charcoal"></div>
 
-        {/* Hexagonal Grid */}
-        <div className="hexagonal-grid">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div
-              key={i}
-              className="floating-hex"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-              }}
-            >
-              <svg width="60" height="60" viewBox="0 0 60 60">
-                <polygon
-                  points="30,5 50,17.5 50,42.5 30,55 10,42.5 10,17.5"
-                  fill="none"
-                  stroke="url(#hexGradient)"
-                  strokeWidth="1"
-                  opacity="0.3"
-                />
-                <defs>
-                  <linearGradient id="hexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#2A7DE1" />
-                    <stop offset="100%" stopColor="#7F00FF" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-          ))}
-        </div>
-
-        {/* Neural Network Visualization */}
-        <div className="neural-network">
-          <svg className="w-full h-full absolute inset-0" viewBox="0 0 1200 800">
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <g className="neural-connections" filter="url(#glow)">
-              <path d="M100,200 Q300,100 500,200 T900,200" stroke="#2A7DE1" strokeWidth="2" fill="none" opacity="0.6">
-                <animate
-                  attributeName="stroke-dasharray"
-                  values="0,1000;1000,0;0,1000"
-                  dur="4s"
-                  repeatCount="indefinite"
-                />
-              </path>
-              <path d="M150,400 Q350,300 550,400 T950,400" stroke="#7F00FF" strokeWidth="2" fill="none" opacity="0.6">
-                <animate
-                  attributeName="stroke-dasharray"
-                  values="0,1000;1000,0;0,1000"
-                  dur="5s"
-                  repeatCount="indefinite"
-                />
-              </path>
-              <path d="M200,600 Q400,500 600,600 T1000,600" stroke="#4C2A85" strokeWidth="2" fill="none" opacity="0.6">
-                <animate
-                  attributeName="stroke-dasharray"
-                  values="0,1000;1000,0;0,1000"
-                  dur="6s"
-                  repeatCount="indefinite"
-                />
-              </path>
-            </g>
-          </svg>
-        </div>
+      {/* Simplified Neural Network Visualization */}
+      <div className="neural-network opacity-20">
+        <svg className="w-full h-full absolute inset-0" viewBox="0 0 1200 800">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <g className="neural-connections" filter="url(#glow)">
+            <path d="M100,200 Q300,100 500,200" stroke="#2A7DE1" strokeWidth="2" fill="none" opacity="0.6" />
+            <path d="M150,400 Q350,300 550,400" stroke="#7F00FF" strokeWidth="2" fill="none" opacity="0.6" />
+            <path d="M200,600 Q400,500 600,600" stroke="#4C2A85" strokeWidth="2" fill="none" opacity="0.6" />
+          </g>
+        </svg>
       </div>
 
       {/* Main Content */}
@@ -160,18 +87,14 @@ export default function HeroAdvanced() {
           {/* Text will be animated by GSAP */}
         </p>
 
-        {/* Quantum Buttons */}
+        {/* Clean Design Buttons */}
         <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-          <button className="quantum-btn primary group">
-            <span className="btn-text">INICIAR SEQUÊNCIA NEURAL</span>
-            <div className="btn-particles"></div>
-            <div className="btn-glow"></div>
+          <button className="quantum-btn primary px-8 py-4 text-lg font-semibold rounded-full bg-neon-blue text-black hover:bg-cyber-purple transition-colors">
+            INICIAR SEQUÊNCIA NEURAL
           </button>
 
-          <button className="quantum-btn secondary group">
-            <span className="btn-text">DEMONSTRAÇÃO QUÂNTICA</span>
-            <div className="btn-particles"></div>
-            <div className="btn-glow"></div>
+          <button className="quantum-btn secondary px-8 py-4 text-lg font-semibold rounded-full bg-cyber-purple text-black hover:bg-neon-blue transition-colors">
+            DEMONSTRAÇÃO QUÂNTICA
           </button>
         </div>
 
@@ -187,22 +110,6 @@ export default function HeroAdvanced() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Quantum Particles */}
-      <div className="quantum-particles">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <div
-            key={i}
-            className="quantum-particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 4}s`,
-            }}
-          ></div>
-        ))}
       </div>
     </section>
   )

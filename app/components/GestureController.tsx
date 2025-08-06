@@ -11,7 +11,6 @@ declare global {
 
 export default function GestureController() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const handsRef = useRef<any>(null)
 
   useEffect(() => {
@@ -80,96 +79,38 @@ export default function GestureController() {
         for (let i = 0; i < results.multiHandLandmarks.length; i++) {
           const landmarks = results.multiHandLandmarks[i]
           const handedness = results.multiHandedness[i].label
-
           processGestures(landmarks, handedness)
         }
       }
     }
 
     const processGestures = (landmarks: any[], handedness: string) => {
-      // Get key points
       const thumb_tip = landmarks[4]
-      const thumb_ip = landmarks[3]
       const index_tip = landmarks[8]
-      const index_pip = landmarks[6]
       const middle_tip = landmarks[12]
-      const middle_pip = landmarks[10]
-      const ring_tip = landmarks[16]
-      const pinky_tip = landmarks[20]
-      const wrist = landmarks[0]
 
-      // Calculate distances
       const thumbIndexDistance = calculateDistance(thumb_tip, index_tip)
       const thumbMiddleDistance = calculateDistance(thumb_tip, middle_tip)
-      const indexMiddleDistance = calculateDistance(index_tip, middle_tip)
 
-      // Gesture Recognition
-
-      // 1. Pinch Scroll (Right Hand) - Thumb + Index
+      // Pinch Scroll (Right Hand)
       if (handedness === "Right" && thumbIndexDistance < 0.05) {
         const scrollDirection = landmarks[8].y - landmarks[4].y
-        window.scrollBy(0, scrollDirection * 500)
-        showGestureIndicator("scroll", "Scroll Ativo")
+        window.scrollBy(0, scrollDirection * 300)
       }
 
-      // 2. Middle Finger Pinch Click - Thumb + Middle
+      // Middle Finger Pinch Click
       if (thumbMiddleDistance < 0.05) {
         simulateClick(middle_tip)
-        showGestureIndicator("click", "Click Detectado")
       }
 
-      // 3. Peace Sign Navigation - Index + Middle extended
-      if (
-        isFingerExtended(landmarks, 8) &&
-        isFingerExtended(landmarks, 12) &&
-        !isFingerExtended(landmarks, 16) &&
-        !isFingerExtended(landmarks, 20)
-      ) {
-        const direction = index_tip.x > 0.5 ? "right" : "left"
-        navigateSection(direction)
-        showGestureIndicator("navigate", `Navegando ${direction}`)
-      }
-
-      // 4. Fist - Close all fingers (Reset/Home)
+      // Fist - scroll to top
       if (
         !isFingerExtended(landmarks, 8) &&
         !isFingerExtended(landmarks, 12) &&
         !isFingerExtended(landmarks, 16) &&
         !isFingerExtended(landmarks, 20)
       ) {
-        scrollToTop()
-        showGestureIndicator("home", "Voltando ao Topo")
-      }
-
-      // 5. Open Palm - All fingers extended (Menu)
-      if (
-        isFingerExtended(landmarks, 8) &&
-        isFingerExtended(landmarks, 12) &&
-        isFingerExtended(landmarks, 16) &&
-        isFingerExtended(landmarks, 20)
-      ) {
-        toggleMenu()
-        showGestureIndicator("menu", "Menu Toggle")
-      }
-
-      // 6. Pointing - Only index extended (Hover effect)
-      if (
-        isFingerExtended(landmarks, 8) &&
-        !isFingerExtended(landmarks, 12) &&
-        !isFingerExtended(landmarks, 16) &&
-        !isFingerExtended(landmarks, 20)
-      ) {
-        createHoverEffect(index_tip)
-      }
-
-      // 7. Zoom Gesture - Thumb + Pinky
-      const thumbPinkyDistance = calculateDistance(thumb_tip, pinky_tip)
-      if (thumbPinkyDistance > 0.15) {
-        zoomIn()
-        showGestureIndicator("zoom", "Zoom In")
-      } else if (thumbPinkyDistance < 0.08) {
-        zoomOut()
-        showGestureIndicator("zoom", "Zoom Out")
+        window.scrollTo({ top: 0, behavior: "smooth" })
       }
     }
 
@@ -187,120 +128,9 @@ export default function GestureController() {
       const x = position.x * window.innerWidth
       const y = position.y * window.innerHeight
       const element = document.elementFromPoint(x, y)
-      if (element && element.click) {
+      if (element instanceof HTMLElement) {
         element.click()
       }
-    }
-
-    const navigateSection = (direction: string) => {
-      const sections = document.querySelectorAll("section")
-      const currentSection = getCurrentSection()
-      const currentIndex = Array.from(sections).indexOf(currentSection)
-
-      if (direction === "right" && currentIndex < sections.length - 1) {
-        sections[currentIndex + 1].scrollIntoView({ behavior: "smooth" })
-      } else if (direction === "left" && currentIndex > 0) {
-        sections[currentIndex - 1].scrollIntoView({ behavior: "smooth" })
-      }
-    }
-
-    const getCurrentSection = () => {
-      const sections = document.querySelectorAll("section")
-      const scrollY = window.scrollY
-
-      for (const section of sections) {
-        const rect = section.getBoundingClientRect()
-        if (rect.top <= 100 && rect.bottom >= 100) {
-          return section
-        }
-      }
-      return sections[0]
-    }
-
-    const scrollToTop = () => {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    }
-
-    const toggleMenu = () => {
-      const menuButton = document.querySelector("[data-menu-toggle]")
-      if (menuButton) {
-        ;(menuButton as HTMLElement).click()
-      }
-    }
-
-    const createHoverEffect = (position: any) => {
-      const x = position.x * window.innerWidth
-      const y = position.y * window.innerHeight
-
-      // Create hover indicator
-      const indicator = document.createElement("div")
-      indicator.className = "gesture-hover-indicator"
-      indicator.style.cssText = `
-        position: fixed;
-        left: ${x}px;
-        top: ${y}px;
-        width: 20px;
-        height: 20px;
-        background: radial-gradient(circle, #2A7DE1, #7F00FF);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        animation: pulse 0.5s ease-out;
-      `
-
-      document.body.appendChild(indicator)
-      setTimeout(() => indicator.remove(), 500)
-    }
-
-    const zoomIn = () => {
-      document.body.style.transform = "scale(1.1)"
-      document.body.style.transformOrigin = "center"
-    }
-
-    const zoomOut = () => {
-      document.body.style.transform = "scale(1)"
-    }
-
-    const showGestureIndicator = (type: string, message: string) => {
-      // Remove existing indicator
-      const existing = document.querySelector(".gesture-indicator")
-      if (existing) existing.remove()
-
-      // Create new indicator
-      const indicator = document.createElement("div")
-      indicator.className = "gesture-indicator"
-      indicator.innerHTML = `
-        <div class="gesture-icon">${getGestureIcon(type)}</div>
-        <div class="gesture-message">${message}</div>
-      `
-      indicator.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgba(10, 15, 30, 0.9);
-        border: 1px solid #2A7DE1;
-        border-radius: 10px;
-        padding: 10px 15px;
-        color: white;
-        font-size: 14px;
-        z-index: 9998;
-        animation: slideIn 0.3s ease-out;
-      `
-
-      document.body.appendChild(indicator)
-      setTimeout(() => indicator.remove(), 2000)
-    }
-
-    const getGestureIcon = (type: string) => {
-      const icons = {
-        scroll: "📜",
-        click: "👆",
-        navigate: "👉",
-        home: "✊",
-        menu: "✋",
-        zoom: "🔍",
-      }
-      return icons[type as keyof typeof icons] || "👋"
     }
 
     loadMediaPipe()
@@ -315,7 +145,6 @@ export default function GestureController() {
   return (
     <div className="gesture-controller">
       <video ref={videoRef} className="hidden" autoPlay muted playsInline />
-      <canvas ref={canvasRef} className="hidden" />
     </div>
   )
 }

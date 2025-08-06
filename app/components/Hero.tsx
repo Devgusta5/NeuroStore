@@ -1,68 +1,98 @@
 "use client"
 
-import { ArrowRight, Play } from "lucide-react"
+import { useState } from "react"
+import { Copy, Check } from 'lucide-react'
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Neural Network Background */}
-      <div className="absolute inset-0 opacity-20">
-        <svg className="w-full h-full" viewBox="0 0 1200 800">
-          <defs>
-            <linearGradient id="neuralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4C2A85" />
-              <stop offset="100%" stopColor="#7F00FF" />
-            </linearGradient>
-          </defs>
-          {/* Neural network lines */}
-          <g stroke="url(#neuralGradient)" strokeWidth="1" fill="none">
-            <path d="M100,200 Q300,100 500,200 T900,200" />
-            <path d="M150,400 Q350,300 550,400 T950,400" />
-            <path d="M200,600 Q400,500 600,600 T1000,600" />
-            <path d="M200,100 L400,300 L600,150 L800,350 L1000,200" />
-            <path d="M100,500 L300,300 L500,450 L700,250 L900,400" />
-          </g>
-          {/* Neural nodes */}
-          <g fill="#7F00FF">
-            <circle cx="100" cy="200" r="4" />
-            <circle cx="300" cy="100" r="4" />
-            <circle cx="500" cy="200" r="4" />
-            <circle cx="700" cy="150" r="4" />
-            <circle cx="900" cy="200" r="4" />
-            <circle cx="150" cy="400" r="4" />
-            <circle cx="350" cy="300" r="4" />
-            <circle cx="550" cy="400" r="4" />
-            <circle cx="750" cy="350" r="4" />
-            <circle cx="950" cy="400" r="4" />
-          </g>
-        </svg>
-      </div>
+  const [copied, setCopied] = useState(false)
+  const installCommand = "npm install neuralcode@1.0.0"
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center px-4 pt-20">
-        <h1 className="text-5xl md:text-7xl font-bold font-orbitron mb-6 bg-gradient-to-r from-white via-neon-blue to-cyber-purple bg-clip-text text-transparent">
-          Seu Mercado de Códigos Neurais
+  const handleCopy = () => {
+    navigator.clipboard.writeText(installCommand)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <section className="relative py-20 px-4">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-50"></div>
+      
+      <div className="relative max-w-4xl mx-auto text-center">
+        {/* Security Update Banner */}
+        <div className="mb-8">
+          <div className="inline-flex items-center px-4 py-2 bg-yellow-500 text-black rounded-full text-sm font-medium">
+            Get Security Updates for NeuralCode 1.0.0 →
+          </div>
+        </div>
+
+        {/* Logo */}
+        <div className="mb-8">
+          <div className="w-24 h-24 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <span className="text-white font-bold text-4xl">N</span>
+          </div>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+          Build fast, intelligent apps
+          <br />
+          with NeuralCode
         </h1>
 
-        <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
-          Copie, cole e customize seus modelos de IA em minutos
+        {/* Description */}
+        <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+          Powerful, extensible, and feature-packed neural library. Build and customize
+          with gesture controls, utilize prebuilt AI components, and bring projects to life
+          with intelligent JavaScript plugins.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button className="group px-8 py-4 bg-neon-blue text-black rounded-lg font-semibold text-lg hover:bg-cyber-purple transition-all duration-300 shadow-lg hover:shadow-neon-blue/50 flex items-center space-x-2">
-            <span>Começar Grátis</span>
-            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+        {/* Install Command */}
+        <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-8">
+          <div className="relative">
+            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 font-mono text-left min-w-80">
+              <div className="flex items-center justify-between">
+                <span className="text-green-400">$ </span>
+                <span className="text-gray-300 flex-1 ml-2">{installCommand}</span>
+                <button
+                  onClick={handleCopy}
+                  className="ml-4 p-2 hover:bg-gray-700 rounded transition-colors"
+                  title="Copy to clipboard"
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4 text-green-400" />
+                  ) : (
+                    <Copy className="h-4 w-4 text-gray-400" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
 
-          <button className="group px-8 py-4 border-2 border-indigo text-indigo rounded-lg font-semibold text-lg hover:border-neon-blue hover:text-neon-blue transition-all duration-300 flex items-center space-x-2">
-            <Play className="h-5 w-5" />
-            <span>Ver Demo</span>
+          <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
+            📖 Read the docs
           </button>
         </div>
 
-        {/* Floating elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 border border-cyber-purple/30 rounded-full animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-16 h-16 border border-neon-blue/30 rounded-full animate-bounce"></div>
-        <div className="absolute top-1/2 left-5 w-12 h-12 bg-gradient-to-r from-cyber-purple/20 to-neon-blue/20 rounded-full animate-ping"></div>
+        {/* Version Info */}
+        <div className="text-gray-400 text-sm">
+          Currently <span className="text-white font-semibold">v1.0.0</span> • 
+          <a href="#" className="text-purple-400 hover:text-purple-300 ml-1">Download</a> • 
+          <a href="#" className="text-purple-400 hover:text-purple-300 ml-1">All releases</a>
+        </div>
+
+        {/* Gesture Control Indicator */}
+        <div className="mt-12">
+          <div className="inline-flex items-center space-x-4 px-6 py-3 bg-gray-800 border border-gray-700 rounded-lg">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span className="text-sm text-gray-300">Gesture Control Active</span>
+            <div className="flex space-x-2 text-lg">
+              <span>✋</span>
+              <span>👆</span>
+              <span>✊</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )

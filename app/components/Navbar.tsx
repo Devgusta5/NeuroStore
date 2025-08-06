@@ -1,114 +1,58 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+export default function MorphingBackground() {
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+    if (!containerRef.current) return
+
+    // Create morphing shapes
+    const shapes: HTMLDivElement[] = []
+    for (let i = 0; i < 2; i++) {
+      const shape = document.createElement("div")
+      shape.className = "morphing-shape"
+      shape.style.cssText = `
+        position: absolute;
+        width: ${200 + Math.random() * 300}px;
+        height: ${200 + Math.random() * 300}px;
+        background: linear-gradient(45deg, 
+          rgba(42, 125, 225, 0.03), 
+          rgba(127, 0, 255, 0.03), 
+          rgba(76, 42, 133, 0.03)
+        );
+        border-radius: 50%;
+        filter: blur(20px);
+        animation: morph ${20 + Math.random() * 10}s ease-in-out infinite;
+      `
+      containerRef.current.appendChild(shape)
+      shapes.push(shape)
     }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    // Animate shapes
+    shapes.forEach((shape, index) => {
+      gsap.set(shape, {
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+      })
+
+      gsap.to(shape, {
+        x: `+=${Math.random() * 400 - 200}`,
+        y: `+=${Math.random() * 400 - 200}`,
+        duration: 30 + Math.random() * 10,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: index * 5,
+      })
+    })
+
+    return () => {
+      shapes.forEach((shape) => shape.remove())
+    }
   }, [])
 
-  useEffect(() => {
-    gsap.fromTo(".navbar", { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5 })
-  }, [])
-
-  return (
-    <nav
-      className={`navbar fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/90 backdrop-blur-md border-b border-neon-blue/20" : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-neon-blue to-cyber-purple rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">N</span>
-            </div>
-            <span className="text-xl font-bold font-orbitron text-white">
-              Neural<span className="text-cyber-purple">Code</span>
-            </span>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-white hover:text-neon-blue transition-colors">
-              Início
-            </a>
-            <a href="#" className="text-white hover:text-neon-blue transition-colors">
-              Marketplace
-            </a>
-            <a href="#" className="text-white hover:text-neon-blue transition-colors">
-              Docs
-            </a>
-            <a href="#" className="text-white hover:text-neon-blue transition-colors">
-              Preços
-            </a>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button className="quantum-btn secondary">
-              <span className="btn-text">Login</span>
-            </button>
-            <button className="quantum-btn primary">
-              <span className="btn-text">Cadastrar</span>
-            </button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-neon-blue" data-menu-toggle>
-              <div className="w-6 h-6 flex flex-col justify-center items-center">
-                <span
-                  className={`block w-5 h-0.5 bg-current transition-all duration-300 ${isOpen ? "rotate-45 translate-y-1" : ""}`}
-                ></span>
-                <span
-                  className={`block w-5 h-0.5 bg-current transition-all duration-300 mt-1 ${isOpen ? "opacity-0" : ""}`}
-                ></span>
-                <span
-                  className={`block w-5 h-0.5 bg-current transition-all duration-300 mt-1 ${isOpen ? "-rotate-45 -translate-y-1" : ""}`}
-                ></span>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-black/90 backdrop-blur-md border-t border-neon-blue/20">
-              <a href="#" className="block px-3 py-2 text-white hover:text-neon-blue">
-                Início
-              </a>
-              <a href="#" className="block px-3 py-2 text-white hover:text-neon-blue">
-                Marketplace
-              </a>
-              <a href="#" className="block px-3 py-2 text-white hover:text-neon-blue">
-                Docs
-              </a>
-              <a href="#" className="block px-3 py-2 text-white hover:text-neon-blue">
-                Preços
-              </a>
-              <div className="flex space-x-2 px-3 py-2">
-                <button className="flex-1 quantum-btn secondary">
-                  <span className="btn-text">Login</span>
-                </button>
-                <button className="flex-1 quantum-btn primary">
-                  <span className="btn-text">Cadastrar</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  )
+  return <div ref={containerRef} className="fixed inset-0 pointer-events-none z-0 overflow-hidden" />
 }

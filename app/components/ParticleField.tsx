@@ -10,14 +10,14 @@ export default function ParticleField() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext("2d")
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
     if (!ctx) return
 
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
-    const particles: any[] = []
-    const particleCount = 100
+    const particles: Particle[] = []
+    const particleCount = 30
 
     class Particle {
       x: number
@@ -39,7 +39,7 @@ export default function ParticleField() {
         this.vz = Math.random() * 2 + 1
         this.size = Math.random() * 3 + 1
         this.color = Math.random() > 0.5 ? "#2A7DE1" : "#7F00FF"
-        this.opacity = Math.random() * 0.5 + 0.2
+        this.opacity = Math.random() * 0.1 + 0.1
       }
 
       update() {
@@ -66,7 +66,7 @@ export default function ParticleField() {
         ctx.save()
         ctx.globalAlpha = this.opacity * (1 - this.z / 1000)
         ctx.fillStyle = this.color
-        ctx.shadowBlur = 10
+        ctx.shadowBlur = 3
         ctx.shadowColor = this.color
         ctx.beginPath()
         ctx.arc(x2d, y2d, size2d, 0, Math.PI * 2)
@@ -75,7 +75,6 @@ export default function ParticleField() {
       }
     }
 
-    // Initialize particles
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle())
     }
@@ -96,9 +95,9 @@ export default function ParticleField() {
           const dy = particle.y - otherParticle.y
           const distance = Math.sqrt(dx * dx + dy * dy)
 
-          if (distance < 100) {
+          if (distance < 150) {
             ctx.save()
-            ctx.globalAlpha = ((100 - distance) / 100) * 0.2
+            ctx.globalAlpha = ((150 - distance) / 150) * 0.1
             ctx.strokeStyle = "#4C2A85"
             ctx.lineWidth = 1
             ctx.beginPath()

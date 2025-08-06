@@ -10,8 +10,8 @@ export default function MorphingBackground() {
     if (!containerRef.current) return
 
     // Create morphing shapes
-    const shapes = []
-    for (let i = 0; i < 5; i++) {
+    const shapes: HTMLDivElement[] = []
+    for (let i = 0; i < 2; i++) {
       const shape = document.createElement("div")
       shape.className = "morphing-shape"
       shape.style.cssText = `
@@ -19,13 +19,13 @@ export default function MorphingBackground() {
         width: ${200 + Math.random() * 300}px;
         height: ${200 + Math.random() * 300}px;
         background: linear-gradient(45deg, 
-          rgba(42, 125, 225, 0.1), 
-          rgba(127, 0, 255, 0.1), 
-          rgba(76, 42, 133, 0.1)
+          rgba(42, 125, 225, 0.03), 
+          rgba(127, 0, 255, 0.03), 
+          rgba(76, 42, 133, 0.03)
         );
         border-radius: 50%;
-        filter: blur(40px);
-        animation: morph ${10 + Math.random() * 10}s ease-in-out infinite;
+        filter: blur(20px);
+        animation: morph ${20 + Math.random() * 10}s ease-in-out infinite;
       `
       containerRef.current.appendChild(shape)
       shapes.push(shape)
@@ -36,18 +36,16 @@ export default function MorphingBackground() {
       gsap.set(shape, {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        scale: 0.5 + Math.random() * 0.5,
       })
 
       gsap.to(shape, {
         x: `+=${Math.random() * 400 - 200}`,
         y: `+=${Math.random() * 400 - 200}`,
-        scale: 0.3 + Math.random() * 0.7,
-        duration: 15 + Math.random() * 10,
+        duration: 30 + Math.random() * 10,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: index * 2,
+        delay: index * 5,
       })
     })
 

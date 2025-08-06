@@ -1,14 +1,12 @@
 import type React from "react"
 import type { Metadata } from "next"
-import Script from "next/script"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "NeuralCode Matrix - Controle Quântico por Gestos",
+  title: "NeuralLib - Neural Library with Gesture Controls",
   description:
-    "Transcenda os limites da programação com códigos neurais e controle por gestos usando IA quântica avançada.",
-  keywords: "IA quântica, controle por gestos, códigos neurais, MediaPipe, GSAP, programação futurista",
-    generator: 'v0.dev'
+    "Powerful neural library with gesture recognition, AI components, and intelligent JavaScript plugins for modern web development.",
+  keywords: "neural library, gesture controls, AI components, MediaPipe, JavaScript, web development",
 }
 
 export default function RootLayout({
@@ -17,13 +15,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR">
-      <head>
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js" />
-      </head>
-      <body className="bg-black text-white overflow-x-hidden">{children}</body>
+    <html lang="en">
+      <body className="bg-gray-900 text-white">{children}</body>
     </html>
   )
 }
