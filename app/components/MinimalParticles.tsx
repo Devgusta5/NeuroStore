@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 
 export default function MinimalParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>(0)
+  const animationRef = useRef<number>()
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -28,8 +28,8 @@ export default function MinimalParticles() {
       opacity: number
 
       constructor() {
-        this.x = Math.random() * canvas!.width
-        this.y = Math.random() * canvas!.height
+        this.x = Math.random() * canvas.width
+        this.y = Math.random() * canvas.height
         this.vx = (Math.random() - 0.5) * 0.5 // Movimento mais lento
         this.vy = (Math.random() - 0.5) * 0.5
         this.size = Math.random() * 2 + 1
@@ -40,18 +40,18 @@ export default function MinimalParticles() {
         this.x += this.vx
         this.y += this.vy
 
-        if (this.x < 0 || this.x > canvas!.width) this.vx *= -1
-        if (this.y < 0 || this.y > canvas!.height) this.vy *= -1
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1
       }
 
       draw() {
-        ctx!.save()
-        ctx!.globalAlpha = this.opacity
-        ctx!.fillStyle = "#2A7DE1"
-        ctx!.beginPath()
-        ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx!.fill()
-        ctx!.restore()
+        ctx.save()
+        ctx.globalAlpha = this.opacity
+        ctx.fillStyle = "#2A7DE1"
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.restore()
       }
     }
 

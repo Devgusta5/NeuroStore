@@ -1,11 +1,16 @@
 "use client"
 
-import { useState } from "react"
-import { Copy, Check } from 'lucide-react'
+import { useState, useEffect } from "react"
+import { Copy, Check, Sparkles } from 'lucide-react'
 
 export default function Hero() {
   const [copied, setCopied] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
   const installCommand = "npm install neuralcode@1.0.0"
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(installCommand)
@@ -14,82 +19,124 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative py-20 px-4">
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-50"></div>
+    <section className="relative py-24 px-4 overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-400/5 rounded-full blur-2xl animate-float"></div>
+      </div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-purple-400/30 rounded-full animate-float-particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`
+            }}
+          />
+        ))}
+      </div>
       
-      <div className="relative max-w-4xl mx-auto text-center">
+      <div className={`relative max-w-5xl mx-auto text-center transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}>
         {/* Security Update Banner */}
-        <div className="mb-8">
-          <div className="inline-flex items-center px-4 py-2 bg-yellow-500 text-black rounded-full text-sm font-medium">
+        <div className="mb-8 animate-slide-down" style={{ animationDelay: '0.2s' }}>
+          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 text-yellow-200 rounded-full text-sm font-medium backdrop-blur-sm hover:scale-105 transition-transform duration-300 cursor-pointer group">
+            <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform duration-300" />
             Get Security Updates for NeuralCode 1.0.0 →
           </div>
         </div>
 
         {/* Logo */}
-        <div className="mb-8">
-          <div className="w-24 h-24 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <span className="text-white font-bold text-4xl">N</span>
+        <div className="mb-8 animate-slide-down" style={{ animationDelay: '0.4s' }}>
+          <div className="relative inline-block">
+            <div className="w-28 h-28 bg-gradient-to-br from-purple-500 via-blue-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-6 transform hover:scale-110 hover:rotate-3 transition-all duration-500 shadow-2xl shadow-purple-500/25">
+              <span className="text-white font-bold text-5xl">N</span>
+            </div>
+            <div className="absolute inset-0 w-28 h-28 bg-gradient-to-br from-purple-500 via-blue-500 to-purple-600 rounded-3xl blur-xl opacity-30 mx-auto animate-pulse-glow"></div>
           </div>
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+        <h1 className={`text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`} style={{ animationDelay: '0.6s' }}>
           Build fast, intelligent apps
           <br />
-          with NeuralCode
+          <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
+            with NeuralCode
+          </span>
         </h1>
 
         {/* Description */}
-        <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+        <p className={`text-xl md:text-2xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`} style={{ animationDelay: '0.8s' }}>
           Powerful, extensible, and feature-packed neural library. Build and customize
-          with gesture controls, utilize prebuilt AI components, and bring projects to life
+          with <span className="text-purple-300 font-semibold">gesture controls</span>, utilize prebuilt AI components, and bring projects to life
           with intelligent JavaScript plugins.
         </p>
 
         {/* Install Command */}
-        <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-8">
-          <div className="relative">
-            <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 font-mono text-left min-w-80">
+        <div className={`flex flex-col md:flex-row gap-6 justify-center items-center mb-8 transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`} style={{ animationDelay: '1s' }}>
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+            <div className="relative bg-slate-800/80 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 font-mono text-left min-w-80 hover:border-purple-500/50 transition-all duration-300 group-hover:scale-105">
               <div className="flex items-center justify-between">
                 <span className="text-green-400">$ </span>
-                <span className="text-gray-300 flex-1 ml-2">{installCommand}</span>
+                <span className="text-slate-200 flex-1 ml-2">{installCommand}</span>
                 <button
                   onClick={handleCopy}
-                  className="ml-4 p-2 hover:bg-gray-700 rounded transition-colors"
+                  className="ml-4 p-2 hover:bg-slate-700/50 rounded-lg transition-all duration-300 hover:scale-110 group"
                   title="Copy to clipboard"
                 >
                   {copied ? (
-                    <Check className="h-4 w-4 text-green-400" />
+                    <Check className="h-4 w-4 text-green-400 animate-bounce" />
                   ) : (
-                    <Copy className="h-4 w-4 text-gray-400" />
+                    <Copy className="h-4 w-4 text-slate-400 group-hover:text-purple-400 transition-colors" />
                   )}
                 </button>
               </div>
             </div>
           </div>
 
-          <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors">
-            📖 Read the docs
+          <button className="relative bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 group overflow-hidden">
+            <span className="relative z-10 flex items-center">
+              📖 Read the docs
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
           </button>
         </div>
 
         {/* Version Info */}
-        <div className="text-gray-400 text-sm">
-          Currently <span className="text-white font-semibold">v1.0.0</span> • 
-          <a href="#" className="text-purple-400 hover:text-purple-300 ml-1">Download</a> • 
-          <a href="#" className="text-purple-400 hover:text-purple-300 ml-1">All releases</a>
+        <div className={`text-slate-400 text-sm mb-12 transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`} style={{ animationDelay: '1.2s' }}>
+          Currently <span className="text-white font-semibold bg-slate-800/50 px-2 py-1 rounded">v1.0.0</span> • 
+          <a href="#" className="text-purple-400 hover:text-purple-300 ml-1 transition-colors hover:underline">Download</a> • 
+          <a href="#" className="text-purple-400 hover:text-purple-300 ml-1 transition-colors hover:underline">All releases</a>
         </div>
 
         {/* Gesture Control Indicator */}
-        <div className="mt-12">
-          <div className="inline-flex items-center space-x-4 px-6 py-3 bg-gray-800 border border-gray-700 rounded-lg">
+        <div className={`transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`} style={{ animationDelay: '1.4s' }}>
+          <div className="inline-flex items-center space-x-4 px-6 py-3 bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-xl hover:border-purple-500/50 transition-all duration-300 hover:scale-105 group">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-sm text-gray-300">Gesture Control Active</span>
+            <span className="text-sm text-slate-300 group-hover:text-white transition-colors">Gesture Control Active</span>
             <div className="flex space-x-2 text-lg">
-              <span>✋</span>
-              <span>👆</span>
-              <span>✊</span>
+              <span className="hover:scale-125 transition-transform duration-300 cursor-pointer">✋</span>
+              <span className="hover:scale-125 transition-transform duration-300 cursor-pointer">👆</span>
+              <span className="hover:scale-125 transition-transform duration-300 cursor-pointer">✊</span>
             </div>
           </div>
         </div>

@@ -10,7 +10,7 @@ export default function MorphingBackground() {
     if (!containerRef.current) return
 
     // Create morphing shapes
-    const shapes: HTMLDivElement[] = []
+    const shapes = []
     for (let i = 0; i < 2; i++) {
       const shape = document.createElement("div")
       shape.className = "morphing-shape"

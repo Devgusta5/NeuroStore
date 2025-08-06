@@ -10,13 +10,13 @@ export default function ParticleField() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
+    const ctx = canvas.getContext("2d")
     if (!ctx) return
 
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
-    const particles: Particle[] = []
+    const particles: any[] = []
     const particleCount = 30
 
     class Particle {
@@ -75,6 +75,7 @@ export default function ParticleField() {
       }
     }
 
+    // Initialize particles
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle())
     }
