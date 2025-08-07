@@ -10,7 +10,7 @@ import GestureController from "./components/GestureController"
 import CursorTrail from "./components/CursorTrail"
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'docs'>('home')
+  const [currentPage, setCurrentPage] = useState<'inicio' | 'docs' | 'planos' | 'blog'>('inicio')
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -23,15 +23,15 @@ export default function Home() {
       <GestureController />
       <Navbar currentPage={currentPage} onPageChange={setCurrentPage} />
       
-      {currentPage === 'home' ? (
+      {currentPage === 'inicio' ? (
         <>
           <Hero />
           <NeuralGrid />
           <Footer />
         </>
-      ) : (
+      ) : currentPage === 'docs' ? (
         <Documentation />
-      )}
+      ) : null}
     </div>
   )
 }

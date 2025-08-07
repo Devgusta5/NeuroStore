@@ -1,78 +1,89 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef } from "react"
 
-interface TrailPoint {
+const colors = [
+  "#8b5cf6", // violet-500
+  "#7c3aed", // violet-600
+  "#6d28d9", // violet-700
+  "#5b21b6", // violet-800
+  "#4c1d95", // violet-900
+  "#312e81", // indigo-900
+  "#1e1b4b", // indigo-950
+  "#1f2937", // gray-800
+  "#111827", // gray-900
+  "#0f172a", // slate-900
+  "#000000", // black
+]
+
+interface Circle extends HTMLDivElement {
   x: number
   y: number
-  id: number
 }
 
 export default function CursorTrail() {
-  const [trail, setTrail] = useState<TrailPoint[]>([])
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const coords = useRef({ x: 0, y: 0 })
+  const circlesRef = useRef<Circle[]>([])
 
   useEffect(() => {
-    let trailId = 0
-
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
-      
-      const newPoint: TrailPoint = {
-        x: e.clientX,
-        y: e.clientY,
-        id: trailId++
-      }
+      coords.current.x = e.clientX
+      coords.current.y = e.clientY
+    }
 
-      setTrail(prev => {
-        const newTrail = [newPoint, ...prev.slice(0, 8)]
-        return newTrail
+    const animate = () => {
+      let x = coords.current.x
+      let y = coords.current.y
+
+      circlesRef.current.forEach((circle, index) => {
+        circle.style.left = `${x - 8}px`
+        circle.style.top = `${y - 8}px`
+        circle.style.scale = `${(circlesRef.current.length - index) / circlesRef.current.length}`
+        circle.style.opacity = `${1 - index * 0.05}`
+
+        const nextCircle = circlesRef.current[index + 1] || circlesRef.current[0]
+        circle.x = x
+        circle.y = y
+
+        x += (nextCircle.x - x) * 0.3
+        y += (nextCircle.y - y) * 0.3
       })
+
+      requestAnimationFrame(animate)
     }
 
-    document.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener("mousemove", handleMouseMove)
+    animate()
 
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove)
-    }
+    return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
   return (
     <>
-      {/* Custom Cursor */}
-      <div 
-        className="fixed pointer-events-none z-[9999] mix-blend-difference"
-        style={{
-          left: mousePos.x - 6,
-          top: mousePos.y - 2,
-          transition: 'all 0.1s ease-out'
-        }}
-      >
-        <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
-          <path 
-            d="M0 0L0 11.2L3.2 8L6.4 11.2L8 9.6L4.8 6.4L8 6.4L0 0Z" 
-            fill="white"
-            className="drop-shadow-sm"
-          />
-        </svg>
-      </div>
-
-      {/* Trail */}
-      {trail.map((point, index) => (
+      {colors.map((color, i) => (
         <div
-          key={point.id}
-          className="fixed pointer-events-none z-[9998] rounded-full"
+          key={i}
+          ref={el => {
+            if (el) {
+              const circle = el as Circle
+              circle.x = 0
+              circle.y = 0
+              circlesRef.current[i] = circle
+            }
+          }}
           style={{
-            left: point.x - 2,
-            top: point.y - 2,
-            width: 4 - (index * 0.3),
-            height: 4 - (index * 0.3),
-            background: `linear-gradient(45deg, 
-              rgba(168, 85, 247, ${0.6 - index * 0.07}), 
-              rgba(59, 130, 246, ${0.4 - index * 0.05})
-            )`,
-            animation: `fadeOut 0.8s ease-out forwards`,
-            animationDelay: `${index * 0.05}s`
+            position: "fixed",
+            height: "16px",
+            width: "16px",
+            borderRadius: "9999px",
+            backgroundColor: color,
+            top: 0,
+            left: 0,
+            pointerEvents: "none",
+            zIndex: 999999,
+            mixBlendMode: "screen", // Para suavizar no fundo escuro
+            opacity: 0.8,
+            transition: "background-color 0.3s",
           }}
         />
       ))}

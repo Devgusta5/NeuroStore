@@ -6,7 +6,7 @@ import { Copy, Check, Sparkles } from 'lucide-react'
 export default function Hero() {
   const [copied, setCopied] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
-  const installCommand = "npm install neuralcode@1.0.0"
+  const installCommand = "npm install NeuroStore@1.0.0"
 
   useEffect(() => {
     setIsVisible(true)
@@ -50,17 +50,28 @@ export default function Hero() {
         <div className="mb-8 animate-slide-down" style={{ animationDelay: '0.2s' }}>
           <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 text-yellow-200 rounded-full text-sm font-medium backdrop-blur-sm hover:scale-105 transition-transform duration-300 cursor-pointer group">
             <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-            Get Security Updates for NeuralCode 1.0.0 →
+            Get Security Updates for NeuroStore 1.0.0 →
           </div>
         </div>
 
         {/* Logo */}
         <div className="mb-8 animate-slide-down" style={{ animationDelay: '0.4s' }}>
           <div className="relative inline-block">
-            <div className="w-28 h-28 bg-gradient-to-br from-purple-500 via-blue-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-6 transform hover:scale-110 hover:rotate-3 transition-all duration-500 shadow-2xl shadow-purple-500/25">
-              <span className="text-white font-bold text-5xl">N</span>
-            </div>
-            <div className="absolute inset-0 w-28 h-28 bg-gradient-to-br from-purple-500 via-blue-500 to-purple-600 rounded-3xl blur-xl opacity-30 mx-auto animate-pulse-glow"></div>
+            {/* Left Glow */}
+            <div
+              className="absolute left-[-48px] top-1/2 -translate-y-1/2 w-24 h-40 bg-gradient-to-b from-purple-500 via-blue-500 to-purple-600 rounded-full blur-3xl opacity-20 animate-pulse-glow pointer-events-none -z-10"
+            />
+            {/* Right Glow */}
+            <div
+              className="absolute right-[-48px] top-1/2 -translate-y-1/2 w-24 h-40 bg-gradient-to-b from-purple-500 via-blue-500 to-purple-600 rounded-full blur-3xl opacity-20 animate-pulse-glow pointer-events-none -z-10"
+            />
+            {/* Dark background behind logo */}
+            <div className="absolute inset-0 w-40 h-40 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-purple-950 opacity-90 shadow-xl shadow-purple-900/40 -z-10" />
+            <img
+              src="/logo-nobg.png"
+              alt="NeuroStore Logo"
+              className="w-40 h-40 rounded-3xl mx-auto mb-6 transform hover:scale-110 hover:rotate-3 transition-all duration-500 shadow-2xl shadow-purple-500/25"
+            />
           </div>
         </div>
 
@@ -68,10 +79,10 @@ export default function Hero() {
         <h1 className={`text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`} style={{ animationDelay: '0.6s' }}>
-          Build fast, intelligent apps
+          Transforme ideias em experiências inteligentes
           <br />
           <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
-            with NeuralCode
+            com o poder do NeuroStore
           </span>
         </h1>
 
