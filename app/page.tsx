@@ -6,7 +6,6 @@ import Hero from "./components/Hero"
 import Documentation from "./components/Documentation"
 import NeuralGrid from "./components/NeuralGrid"
 import Footer from "./components/Footer"
-import GestureController from "./components/GestureController"
 import CursorTrail from "./components/CursorTrail"
 
 export default function Home() {
@@ -18,9 +17,13 @@ export default function Home() {
   }, [])
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div
+      className={`min-h-screen bg-gradient-to-br
+      from-zinc-50 via-violet-100 to-zinc-50
+      dark:from-slate-900 dark:via-purple-900 dark:to-slate-900
+      text-foreground transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+    >
       <CursorTrail />
-      <GestureController />
       <Navbar currentPage={currentPage} onPageChange={setCurrentPage} />
       
       {currentPage === 'inicio' ? (

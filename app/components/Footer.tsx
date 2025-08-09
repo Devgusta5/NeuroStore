@@ -58,7 +58,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © 2024 NeuralLib. All rights reserved. Built with ❤️ for developers.
+            © 2025 NeuralLib. All rights reserved. Built with ❤️ for developers.
           </p>
         </div>
       </div>

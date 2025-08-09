@@ -128,8 +128,8 @@ export default function GestureController() {
       const x = position.x * window.innerWidth
       const y = position.y * window.innerHeight
       const element = document.elementFromPoint(x, y)
-      if (element && element.click) {
-        element.click()
+      if (element && (element as HTMLElement).click) {
+        (element as HTMLElement).click()
       }
     }
 

@@ -14,7 +14,7 @@ interface NavbarProps {
 export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const { theme, resolvedTheme, setTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +28,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
     <>
       <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
         isScrolled 
-          ? 'bg-slate-900/95 backdrop-blur-md border-b border-purple-500/20 shadow-lg shadow-purple-500/10' 
+          ? 'bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg'
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,7 +52,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <span className="text-white font-bold text-xl bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                <span className="font-bold text-xl text-foreground">
                   NeuroStore
                 </span>
               </button>
@@ -63,8 +63,8 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                   onClick={() => onPageChange('inicio')}
                   className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
                     currentPage === 'inicio' 
-                      ? 'text-white border-b-2 border-purple-400' 
-                      : 'text-purple-200 hover:text-white hover:text-shadow-glow'
+                      ? 'text-foreground border-b-2 border-border'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Início
@@ -73,8 +73,8 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                   onClick={() => onPageChange('docs')}
                   className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
                     currentPage === 'docs' 
-                      ? 'text-white border-b-2 border-purple-400' 
-                      : 'text-purple-200 hover:text-white hover:text-shadow-glow'
+                      ? 'text-foreground border-b-2 border-border'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Docs
@@ -83,8 +83,8 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                   onClick={() => onPageChange('planos')}
                   className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
                     currentPage === 'planos' 
-                      ? 'text-white border-b-2 border-purple-400' 
-                      : 'text-purple-200 hover:text-white hover:text-shadow-glow'
+                      ? 'text-foreground border-b-2 border-border'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Planos
@@ -93,8 +93,8 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                   onClick={() => onPageChange('blog')}
                   className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
                     currentPage === 'blog' 
-                      ? 'text-white border-b-2 border-purple-400' 
-                      : 'text-purple-200 hover:text-white hover:text-shadow-glow'
+                      ? 'text-foreground border-b-2 border-border'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Blog
@@ -105,27 +105,33 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
             {/* Search and Actions */}
             <div className="flex items-center space-x-4">
               <div className="relative hidden md:block group">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 h-4 w-4 transition-colors group-focus-within:text-purple-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 transition-colors group-focus-within:text-foreground" />
                 <input
                   type="text"
                   placeholder="Search"
-                  className="bg-slate-800/50 text-white placeholder-purple-300 pl-10 pr-12 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:bg-slate-800/80 w-64 transition-all duration-300 border border-slate-700/50 focus:border-purple-400/50"
+                  className="bg-muted/50 text-foreground placeholder:text-muted-foreground pl-10 pr-12 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:bg-muted/80 w-64 transition-all duration-300 border border-border/50 focus:border-border/50"
                 />
 
               </div>
 
               <div className="flex items-center space-x-3">
-                <a href="https://github.com/Devgusta5/NeuroStore" className="text-purple-200 hover:text-white transition-all duration-300 hover:scale-110 hover:rotate-12">
+                <a
+                  href="https://github.com/Devgusta5/NeuroStore"
+                  className="text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-110 hover:rotate-12"
+                >
                   <Github className="h-5 w-5" />
                 </a>
                 <button
-                  className="text-purple-200 hover:text-white transition-all duration-300 hover:scale-110 hover:rotate-12"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-110 hover:rotate-12"
+                  onClick={() => {
+                    const isDark = (theme === 'system' ? resolvedTheme : theme) === 'dark'
+                    setTheme(isDark ? 'light' : 'dark')
+                  }}
                   aria-label="Alternar tema"
                 >
                   <Moon className="h-5 w-5" />
                 </button>
-                <span className="text-purple-200 text-sm bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700/50">
+                <span className="text-muted-foreground text-sm bg-muted/50 px-3 py-1 rounded-full border border-border/50">
                   v1.0.0
                 </span>
               </div>
@@ -133,7 +139,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
               {/* Mobile menu button */}
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden text-white hover:text-purple-300 transition-colors"
+                className="md:hidden text-foreground hover:text-foreground/80 transition-colors"
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -142,14 +148,14 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="md:hidden border-t border-purple-500/20 bg-slate-900/95 backdrop-blur-md">
+            <div className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-md">
               <div className="px-2 pt-2 pb-3 space-y-1">
                 <button
                   onClick={() => {
                     onPageChange('inicio')
                     setIsMobileMenuOpen(false)
                   }}
-                  className="block px-3 py-2 text-purple-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300"
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-300"
                 >
                   Início
                 </button>
@@ -158,7 +164,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                     onPageChange('docs')
                     setIsMobileMenuOpen(false)
                   }}
-                  className="block px-3 py-2 text-purple-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300"
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-300"
                 >
                   Docs
                 </button>
@@ -167,7 +173,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                     onPageChange('planos')
                     setIsMobileMenuOpen(false)
                   }}
-                  className="block px-3 py-2 text-purple-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300"
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-300"
                 >
                   Planos
                 </button>
@@ -176,7 +182,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                     onPageChange('blog')
                     setIsMobileMenuOpen(false)
                   }}
-                  className="block px-3 py-2 text-purple-200 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-300"
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-all duration-300"
                 >
                   Blog
                 </button>
