@@ -125,7 +125,7 @@ export default function NeuralGrid() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
             Code Examples
           </h2>
-          <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+          <p className="text-violet-600 dark:text-slate-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
             Ready-to-use code snippets for common neural and gesture recognition tasks
           </p>
         </div>

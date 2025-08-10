@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div
       className={`min-h-screen bg-gradient-to-br
-      from-zinc-50 via-violet-100 to-zinc-50
+      from-zinc-300 via-violet-300 to-zinc-600
       dark:from-slate-900 dark:via-purple-900 dark:to-slate-900
       text-foreground transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
     >
