@@ -24,6 +24,11 @@ export default function HandTracker() {
   const themeGestureStartRef = useRef<number | null>(null);
   const themeGestureCheckRef = useRef<NodeJS.Timeout | null>(null);
 
+  // NOVO: rastrear movimento e velocidade de rolagem
+  const lastScrollYRef = useRef<number | null>(null);
+  const scrollDirectionRef = useRef<'up' | 'down'>('down');
+  const scrollSpeedRef = useRef<number>(20);
+
   // Funções de controle Navegar entre páginas, Trocar Tema, Simular Clique, Iniciar/Parar Scroll e Mostrar Easter Egg
 
   //Navegar entre páginas
@@ -53,22 +58,54 @@ const openDocs = useCallback(() => {
   }, []);
 
   const simulateClick = useCallback((x: number, y: number) => {
-    const element = document.elementFromPoint(x, y) as HTMLElement;
-    if (element) {
-      element.click();
-      console.log(`🖱 Clique simulado em (${x}, ${y})`);
+    const elAtPoint = document.elementFromPoint(x, y) as HTMLElement | null;
+    if (!elAtPoint) return;
+
+    const target =
+      (elAtPoint.closest('button, a, input, textarea, select, [role="button"], [onclick]') as HTMLElement) ||
+      elAtPoint;
+
+    const clientX = x;
+    const clientY = y;
+    const base = {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      clientX,
+      clientY,
+      screenX: window.screenX + clientX,
+      screenY: window.screenY + clientY,
+      button: 0,
+      buttons: 1,
+      view: window,
+    } as const;
+
+    // Pointer/mouse sequence
+    try { target.dispatchEvent(new PointerEvent('pointerdown', { ...base, pointerId: 1, pointerType: 'mouse' })) } catch {}
+    target.dispatchEvent(new MouseEvent('mousedown', base as any));
+
+    // Focus for inputs/editables
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || (target as HTMLElement).isContentEditable) {
+      ;(target as HTMLElement).focus();
     }
+
+    try { target.dispatchEvent(new PointerEvent('pointerup', { ...base, pointerId: 1, pointerType: 'mouse' })) } catch {}
+    target.dispatchEvent(new MouseEvent('mouseup', base as any));
+    target.dispatchEvent(new MouseEvent('click', { ...base, detail: 1 } as any));
+
+    console.log('🖱️ Click simulado em:', target.tagName, target);
   }, []);
 
   const startScroll = useCallback((direction: 'up' | 'down') => {
     if (scrollIntervalRef.current) return;
-    
-    const speed = 20;
+
+    scrollDirectionRef.current = direction;
+    scrollSpeedRef.current = 20; // base, dynamically updated during gesture
+
     scrollIntervalRef.current = setInterval(() => {
-      window.scrollBy({
-        top: direction === 'up' ? -speed : speed,
-        behavior: 'smooth'
-      });
+      const delta = scrollDirectionRef.current === 'up' ? -scrollSpeedRef.current : scrollSpeedRef.current;
+      // remove smooth here so we don't fight animations every tick
+      window.scrollBy(0, delta);
     }, 16);
   }, []);
 
@@ -77,6 +114,8 @@ const openDocs = useCallback(() => {
       clearInterval(scrollIntervalRef.current);
       scrollIntervalRef.current = null;
     }
+    // reset last Y so next gesture starts fresh
+    lastScrollYRef.current = null;
   }, []);
 
   const showEasterEgg = useCallback(() => {
@@ -170,20 +209,50 @@ const openDocs = useCallback(() => {
       const handCenterX = (1 - wrist.x) * window.innerWidth; // Invertido por causa do espelhamento
       const handCenterY = wrist.y * window.innerHeight;
 
-      // Click/Select
+      // Click/Select -> use pinch midpoint (thumb/index)
       if (thumbIndexDist < 0.05) {
         lastGestureTimeRef.current = now;
-        simulateClick(handCenterX, handCenterY);
+        const pinchX = (1 - (thumbTip.x + indexTip.x) / 2) * window.innerWidth;
+        const pinchY = ((thumbTip.y + indexTip.y) / 2) * window.innerHeight;
+        simulateClick(pinchX, pinchY);
         return;
       }
 
-      // Scroll Vertical
-      if (thumbMiddleDist < 0.05) {
+      // ROLAGEM: beliscar o polegar e o meio e seguir o movimento vertical do usuário
+      const pinchScrollActive = thumbMiddleDist < 0.05;
+      if (pinchScrollActive) {
+        // use o ponto médio entre o polegar e o meio como ponto de rolagem
+        const pinchYNorm = (thumbTip.y + middleTip.y) / 2; // 0 (topo) -> 1 (fundo)
+        const prevY = lastScrollYRef.current;
+        lastScrollYRef.current = pinchYNorm;
+
+        if (prevY != null) {
+          const dy = pinchYNorm - prevY; // positivo => movendo para baixo
+          const absDy = Math.abs(dy);
+
+          // zona morta para evitar jitter
+          const DEAD_ZONE = 0.01;
+          if (absDy > DEAD_ZONE) {
+            const dir: 'up' | 'down' = dy < 0 ? 'up' : 'down';
+            // velocidade proporcional ao movimento; limite para pixels razoáveis por tick
+            const pxPerTick = Math.min(50, Math.max(8, Math.round(absDy * window.innerHeight * 0.2)));
+
+            if (!scrollIntervalRef.current) {
+              startScroll(dir);
+            }
+            // atualizar direção e velocidade ao vivo
+            scrollDirectionRef.current = dir;
+            scrollSpeedRef.current = pxPerTick;
+          }
+        } else {
+          // primeiro quadro do beliscão, comece com para baixo para inicializar o intervalo
+          if (!scrollIntervalRef.current) startScroll('down');
+        }
+
+        // mantenha o debounce fresco enquanto rola para evitar outros gestos
         lastGestureTimeRef.current = now;
-        const direction = wrist.y < 0.5 ? 'down' : 'up';
-        startScroll(direction);
         return;
-      } else {
+      } else if (scrollIntervalRef.current) {
         stopScroll();
       }
 
@@ -199,12 +268,12 @@ const openDocs = useCallback(() => {
         return;
       }
 
-// Trocar tema ("L")
+      // Trocar tema ("L")
       // Detecção do gesto "L" para trocar tema
   const handScale = distance(wrist, indexTip); // escala base
-const isThumbExtended = distance(thumbTip, wrist) / handScale > 1.0;
-const isIndexExtended = distance(indexTip, wrist) / handScale > 1.0;
-const isMiddleFolded = distance(middleTip, wrist) / handScale < 0.5;
+  const isThumbExtended = distance(thumbTip, wrist) / handScale > 1.0;
+  const isIndexExtended = distance(indexTip, wrist) / handScale > 1.0;
+  const isMiddleFolded = distance(middleTip, wrist) / handScale < 0.5;
 const isRingFolded = distance(ringTip, wrist) / handScale < 0.5;
 const isPinkyFolded = distance(pinkyTip, wrist) / handScale < 0.5;
 
