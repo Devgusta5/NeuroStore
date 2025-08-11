@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import type React from "react"
 import "./globals.css"
 import HandTracker from "./components/HandTracker"
@@ -10,6 +10,13 @@ export const metadata: Metadata = {
   description:
     "Powerful neural library with gesture recognition, AI components, and intelligent JavaScript plugins for modern web development.",
   keywords: "neural library, gesture controls, AI components, MediaPipe, JavaScript, web development",
+}
+
+// Adiciona meta viewport responsivo
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({

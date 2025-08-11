@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
-import Documentation from "./components/Documentation"
+import Documentation from "./Documentation/Documentation"
 import NeuralGrid from "./components/NeuralGrid"
 import Footer from "./components/Footer"
 import CursorTrail from "./components/CursorTrail"
@@ -14,6 +14,26 @@ export default function Home() {
 
   useEffect(() => {
     setIsLoaded(true)
+  }, [])
+
+  // Inicializa o tema (classe 'dark' + data-theme) na carga
+  useEffect(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
+    const prefersDark = typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches
+    const next = saved ?? (prefersDark ? 'dark' : 'light')
+    const html = document.documentElement
+    html.classList.toggle('dark', next === 'dark')
+    html.setAttribute('data-theme', next)
+  }, [])
+
+  // Ouve navegação disparada pelo HandTracker (ex.: openDocs)
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const ce = e as CustomEvent<{ page?: 'inicio' | 'docs' | 'planos' | 'blog' }>
+      if (ce.detail?.page) setCurrentPage(ce.detail.page)
+    }
+    window.addEventListener('handtracker:navigate', handler as EventListener)
+    return () => window.removeEventListener('handtracker:navigate', handler as EventListener)
   }, [])
 
   return (
