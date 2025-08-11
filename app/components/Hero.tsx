@@ -87,11 +87,11 @@ export default function Hero() {
         </h1>
 
         {/* Description */}
-        <p className={`text-xl md:text-2xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed transition-all duration-1000 ${
+        <p className={` text-violet-600  text-xl md:text-2xl dark:text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`} style={{ animationDelay: '0.8s' }}>
           Powerful, extensible, and feature-packed neural library. Build and customize
-          with <span className="text-purple-300 font-semibold">gesture controls</span>, utilize prebuilt AI components, and bring projects to life
+          with <span className="text-purple-400  dark:text-purple-300 font-semibold ">gesture controls</span>, utilize prebuilt AI components, and bring projects to life
           with intelligent JavaScript plugins.
         </p>
 
