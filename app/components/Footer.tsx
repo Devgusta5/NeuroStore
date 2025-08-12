@@ -36,17 +36,17 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Documentation</h4>
+            <h4 className="text-white font-semibold mb-4">Documentação</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Getting Started</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">API Reference</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Examples</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Tutorials</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Começar agora</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Referências API</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Exemplos</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Tutoriais</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Community</h4>
+            <h4 className="text-white font-semibold mb-4">Comunidade</h4>
             <ul className="space-y-2">
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">GitHub</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Discord</a></li>
@@ -58,7 +58,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © 2025 NeuralLib. All rights reserved. Built with ❤️ for developers.
+            © 2025 NeuralLib. All rights reserved.
           </p>
         </div>
       </div>
