@@ -1,4 +1,3 @@
-// Navbar.tsx
 "use client"
 
 import { Search, Github, Moon, Menu, X } from 'lucide-react'
@@ -69,6 +68,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                 >
                   Início
                 </button>
+
                 <button
                   onClick={() => onPageChange('docs')}
                   className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
@@ -79,6 +79,7 @@ export default function Navbar({ currentPage, onPageChange }: NavbarProps) {
                 >
                   Docs
                 </button>
+
                 <button
                   onClick={() => onPageChange('planos')}
                   className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${

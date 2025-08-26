@@ -7,6 +7,7 @@ import Documentation from "./Documentation/Documentation"
 import NeuralGrid from "./components/NeuralGrid"
 import Footer from "./components/Footer"
 import CursorTrail from "./components/CursorTrail"
+import PricingPlans from "./components/PricingPlans"
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<'inicio' | 'docs' | 'planos' | 'blog'>('inicio')
@@ -54,6 +55,11 @@ export default function Home() {
         </>
       ) : currentPage === 'docs' ? (
         <Documentation />
+      ) : currentPage === 'planos' ? (
+        <> 
+          <PricingPlans />
+          <Footer />
+        </>
       ) : null}
     </div>
   )
