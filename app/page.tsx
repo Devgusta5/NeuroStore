@@ -8,6 +8,7 @@ import NeuralGrid from "./components/NeuralGrid"
 import Footer from "./components/Footer"
 import CursorTrail from "./components/CursorTrail"
 import PricingPlans from "./components/PricingPlans"
+import Blog from "./components/Blog"
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<'inicio' | 'docs' | 'planos' | 'blog'>('inicio')
@@ -48,19 +49,21 @@ export default function Home() {
       <Navbar currentPage={currentPage} onPageChange={setCurrentPage} />
       
       {currentPage === 'inicio' ? (
-        <>
-          <Hero />
-          <NeuralGrid />
-          <Footer />
-        </>
-      ) : currentPage === 'docs' ? (
-        <Documentation />
-      ) : currentPage === 'planos' ? (
-        <> 
-          <PricingPlans />
-          <Footer />
-        </>
-      ) : null}
+  <>
+    <Hero />
+    <NeuralGrid />
+    <Footer />
+  </>
+) : currentPage === 'docs' ? (
+  <Documentation />
+) : currentPage === 'planos' ? (
+  <> 
+    <PricingPlans />
+    <Footer />
+  </>
+) : currentPage === 'blog' ? (
+  <Blog />
+) : null}
     </div>
   )
 }
