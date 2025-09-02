@@ -2,11 +2,11 @@
 
 ## Introdução
 
-O **Neurostore** é um projeto inovador que tem como objetivo tornar a navegação em e-commerces mais acessível e intuitiva para todos, especialmente pessoas com mobilidade reduzida ou limitações motoras. Através do uso de gestos realizados com as mãos, o usuário pode controlar o site de forma natural, sem a necessidade de teclado ou mouse. O Neurostore busca proporcionar autonomia e inclusão digital, trazendo uma experiência de compra mais fluida e adaptada às necessidades dos usuários.
+O **Neurostore** é uma plataforma SaaS inovadora, criada para funcionar como um “Bootstrap” voltado ao desenvolvimento de código e redes neurais. Seu propósito é oferecer uma base robusta e flexível para projetos que demandam agilidade, modularidade e integração com inteligência artificial, facilitando tanto o desenvolvimento quanto o deploy de soluções baseadas em machine learning e deep learning.
+
+Além disso, o Neurostore busca democratizar o acesso à tecnologia, promovendo inclusão digital por meio de interfaces acessíveis e adaptáveis — especialmente para pessoas com mobilidade reduzida. O projeto entrega uma experiência única, onde o usuário pode navegar, interagir e gerenciar conteúdos usando apenas gestos das mãos, sem a necessidade de teclado ou mouse.
 
 ## Estrutura de Pastas
-
-A estrutura do repositório foi organizada para facilitar a escalabilidade e a manutenção do projeto. As principais pastas e arquivos são:
 
 ```
 ├── app/                 # Lógica de inicialização e rotas principais do projeto
@@ -24,17 +24,73 @@ A estrutura do repositório foi organizada para facilitar a escalabilidade e a m
 ├── tsconfig.json        # Configuração do TypeScript
 ```
 
-## Controle por Gestos
+## Controle por Gestos 🖐️🤲✊
 
-O Neurostore implementa uma série de gestos com as mãos para controlar o site de maneira clara e intuitiva. Os gestos mapeados atualmente são:
+O Neurostore implementa gestos com as mãos para controlar o site de maneira clara e intuitiva, tornando a experiência acessível para todos:
 
-- **Arrastar para a direita/esquerda:** Navega entre os diferentes produtos ou páginas.
-- **Mão aberta:** Seleciona ou ativa o item focado na tela.
-- **Mão fechada (punho):** Volta para a página anterior ou cancela uma ação.
-- **Pinça (união do polegar e indicador):** Adiciona o produto ao carrinho.
-- **Dois dedos para cima/baixo:** Realiza rolagem na página, permitindo visualizar mais produtos.
-- **Gestos personalizados:** O sistema permite adaptar gestos para ações específicas conforme necessidade do usuário.
+- 🖐️ **Mão aberta:** Navega entre as páginas da navbar.
+- 🤏 **Pinça (polegar e indicador):** Simula um clique.
+- 🤏 **Pinça (polegar e médio):** Scroll leve.
+- 👐 **Gestos personalizados:** O sistema pode ser adaptado para gestos específicos conforme necessidade do usuário.
 
-Esses gestos foram pensados para serem intuitivos e de fácil execução, tornando a navegação mais acessível e prática.
+Esses gestos foram pensados para serem intuitivos e de fácil execução, tornando a navegação mais acessível, prática e divertida.
+
+## Instalação e Execução
+
+### 1. Clonando o projeto
+
+```bash
+git clone https://github.com/Devgusta5/NeuroStore.git
+cd NeuroStore
+```
+
+### 2. Instalando dependências
+
+O projeto utiliza Node.js, Next.js e Tailwind CSS. Para instalar as dependências, use o gerenciador de sua preferência:
+
+#### Usando npm
+
+```bash
+npm install
+```
+
+#### Usando pnpm
+
+```bash
+pnpm install
+```
+
+#### Usando yarn
+
+```bash
+yarn install
+```
+
+### 3. Dependências para reconhecimento de gestos
+
+O Neurostore utiliza o [MediaPipe](https://google.github.io/mediapipe/) para reconhecimento de gestos. Para garantir o funcionamento, instale o pacote mediapipe:
+
+```bash
+npm install @mediapipe/hands @mediapipe/camera_utils @mediapipe/drawing_utils
+```
+Ou use o equivalente para pnpm/yarn.
+
+> **Obs:** O MediaPipe pode ser usado tanto via npm quanto via CDN em alguns módulos front-end. Verifique na implementação qual abordagem foi utilizada.
+
+### 4. Rodando o projeto em ambiente de desenvolvimento
+
+```bash
+npm run dev
+```
+ou
+```bash
+pnpm dev
+```
+ou
+```bash
+yarn dev
+```
+
+O projeto estará disponível em `http://localhost:3000`.
 
 ---
